@@ -158,7 +158,7 @@
 ## Notes ##
 - UnitTest is made only for one model and his URLs, and the other models have the same approach.
 - CRUD form is also made for one model only (EducationalLevel), and the other models have the same approach.
-- All URLs are available if you want to view it send me Gmail to allow it for you.
+- All URLs are available if you want to view them send me Gmail to allow it for you.
 
 ## Steps To make requests in EducationalLevel form:
 1. Open 'login.html' file.
