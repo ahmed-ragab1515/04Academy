@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElMadrasah</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Form for creating/editing an Educational Level -->
+    <div class="form-container">
+        <h2>Educational Level Form</h2>
+        <form id="educationalLevelForm" action="http://localhost:8000/EducationalLevelOp/add/" method="post">
+            <input type="text" id="nameInput" name="name" placeholder="Name"><br>
+            <input type="submit" id="submitBtn" value="Submit">
+            <input type="hidden" id="editId" name="editId">
+        </form>
+
+        <!-- Button to trigger data retrieval for Educational Levels -->
+        <button id="showEducationalLevelDataBtn">Show Educational Level Data</button>
+
+        <!-- Table to display Educational Level data -->
+        <table id="educationalLevelTable" style="display: none; width: 100%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <!-- Popup window for Educational Level details -->
+        <div id="educationalLevelDetailsPopup" class="popup" style="display: none;">
+            <h2>Educational Level Details</h2>
+            <div id="educationalLevelDetailsContent"></div>
+            <button id="closeEducationalLevelDetailsBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Rest of your HTML content -->
+
+<script>
+    // Global token variable
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MjMxNzc4LCJpYXQiOjE3MTQxNDUzNzgsImp0aSI6IjE1Yjk4NWU5NjNkYjQ4YmY5ZjdlNGU3MTI3MWJmNTljIiwidXNlcl9pZCI6Mn0.dgOeVad1EyEzoLENzDWu35pRPYQuNy9GIUrhKfDuGD4';
+
+    // Function to reload the table content
+
+    // Function to submit the form with token
+    function submitFormWithToken(formId, method) {
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: method,
+            headers: {
+                'Authorization': token
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.status === 201) {
+                // If the response status is 201, show success popup
+                document.getElementById('educationalLevelDetailsPopup').style.display = 'block';
+                document.getElementById('educationalLevelDetailsContent').innerHTML = '<p>Educational Level added successfully!</p>';
+                // You may want to reload the educational level table or update it with the new data here
+
+            } else if (response.status === 200) {
+                // If the response status is 200, show success popup for update
+                document.getElementById('educationalLevelDetailsPopup').style.display = 'block';
+                document.getElementById('educationalLevelDetailsContent').innerHTML = '<p>Educational Level updated successfully!</p>';
+                // Reset the form fields and button to initial state
+                document.getElementById('nameInput').value = '';
+                document.getElementById('editId').value = '';
+                document.getElementById('submitBtn').value = 'Submit';
+                document.getElementById('educationalLevelForm').action = 'http://localhost:8000/EducationalLevelOp/add/';
+                // You may want to reload the educational level table or update it with the new data here
+
+            } else {
+                // If the response status is not 200 or 201, show error popup
+                document.getElementById('educationalLevelDetailsPopup').style.display = 'block';
+                document.getElementById('educationalLevelDetailsContent').innerHTML = '<p>Error adding/updating Educational Level. Please try again.</p>';
+
+            }
+        })
+        .catch(error => {
+            // If there's an error in fetching or processing the response, show error popup
+            console.error('Error submitting form:', error);
+            document.getElementById('educationalLevelDetailsPopup').style.display = 'block';
+            document.getElementById('educationalLevelDetailsContent').innerHTML = '<p>An error occurred. Please try again later.</p>';
+        });
+    }
+
+    // Function to display Educational Level details in a popup window
+    function showEducationalLevelDetails(educationalLevelDetails) {
+        const popupContent = document.querySelector('#educationalLevelDetailsContent');
+        popupContent.innerHTML = `
+            <p><strong>ID:</strong> ${educationalLevelDetails.data.id}</p>
+            <p><strong>Name:</strong> ${educationalLevelDetails.data.name}</p>
+        `;
+        document.getElementById('educationalLevelDetailsPopup').style.display = 'block';
+    }
+
+    // Function to open the form for editing an Educational Level
+    function openEditForm(educationalLevelId, educationalLevelName) {
+        // Populate form fields with existing data
+        document.getElementById('nameInput').value = educationalLevelName;
+        document.getElementById('editId').value = educationalLevelId;
+        document.getElementById('submitBtn').value = 'Update';
+        document.getElementById('educationalLevelForm').action = 'http://localhost:8000/EducationalLevelOp/edit/' + educationalLevelId + '/';
+    }
+
+    // Add event listener for educational level form submission
+    document.getElementById('educationalLevelForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn.value === 'Submit') {
+            // If the button value is 'Submit', make a POST request
+            submitFormWithToken('educationalLevelForm', 'POST');
+        } else if (submitBtn.value === 'Update') {
+            // If the button value is 'Update', make a PUT request
+            submitFormWithToken('educationalLevelForm', 'PUT');
+        }
+    });
+
+    // Add event listener for button to show Educational Level data
+    document.getElementById('showEducationalLevelDataBtn').addEventListener('click', function() {
+        const table = document.querySelector('#educationalLevelTable');
+        const tableBody = table.querySelector('tbody');
+
+        // Clear existing table data
+        tableBody.innerHTML = '';
+
+        // Show the table
+        table.style.display = 'block';
+
+        // Fetch fresh data from the server
+        fetch('http://localhost:8000/GetEducationalLevelList/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Populate the table with the received data
+                data.data.forEach(educationalLevel => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${educationalLevel.id}</td>
+                        <td>${educationalLevel.name}</td>
+                        <td>
+                            <button class="educationalLevelDetailsBtn" data-id="${educationalLevel.id}">Details</button>
+                            <button class="editEducationalLevelBtn" data-id="${educationalLevel.id}" data-name="${educationalLevel.name}">Edit</button>
+                            <button class="deleteEducationalLevelBtn" data-id="${educationalLevel.id}">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                // Add event listeners to Educational Level details buttons
+                document.querySelectorAll('.educationalLevelDetailsBtn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const educationalLevelId = this.getAttribute('data-id');
+                        fetch('http://localhost:8000/GetEducationalLevelById/' + educationalLevelId + '/')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(educationalLevelDetails => {
+                                // Display Educational Level details in a popup window
+                                showEducationalLevelDetails(educationalLevelDetails);
+                            })
+                            .catch(error => console.error('Error fetching Educational Level details:', error));
+                    });
+                });
+
+                // Add event listeners to Edit Educational Level buttons
+                document.querySelectorAll('.editEducationalLevelBtn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const educationalLevelId = this.getAttribute('data-id');
+                        const educationalLevelName = this.getAttribute('data-name');
+                        openEditForm(educationalLevelId, educationalLevelName);
+                    });
+                });
+
+                // Add event listeners to Delete Educational Level buttons
+                document.querySelectorAll('.deleteEducationalLevelBtn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const educationalLevelId = this.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this Educational Level?')) {
+                            fetch('http://localhost:8000/EducationalLevelOp/delete/' + educationalLevelId + '/', {
+                                method: 'DELETE',
+                                headers: {
+                                    'Authorization': token
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Reload the table or update it after successful deletion
+                                    // For simplicity, reloading the page here
+                                    window.location.reload();
+                                } else {
+                                    console.error('Error deleting Educational Level');
+                                }
+                            })
+                            .catch(error => console.error('Error deleting Educational Level:', error));
+                        }
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+    // Add event listener for closing Educational Level details popup
+    document.getElementById('closeEducationalLevelDetailsBtn').addEventListener('click', function() {
+        document.getElementById('educationalLevelDetailsPopup').style.display = 'none';
+    });
+
+</script>
+
+</body>
+</html>

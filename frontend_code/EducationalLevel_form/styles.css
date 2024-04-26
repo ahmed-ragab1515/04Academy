@@ -1,0 +1,74 @@
+.container {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px;
+  }
+  
+  .form-container {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Additional styling for better appearance */
+  h2 {
+      margin-top: 0;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  button {
+      margin-bottom: 10px;
+  }
+  
+  button {
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+  }
+  
+  button:hover {
+      background-color: #0056b3;
+  }
+  
+  table {
+      border-collapse: collapse;
+      width: 100%;
+  }
+  
+  th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
+  
+  th {
+      background-color: #f2f2f2;
+  }
+  
+#educationalLevelTable {
+    width: 80%; /* Adjust table width as needed */
+    max-width: 100%; /* Ensure the table does not exceed viewport width */
+    height: 100%; /* Set table height to fill container */
+    border-collapse: collapse; /* Collapse borders for better appearance */
+}
+
+#educationalLevelTable th,
+#educationalLevelTable td {
+    border: 1px solid #ddd; /* Add borders to table cells */
+    padding: 8px; /* Add padding to table cells */
+    text-align: left; /* Align text to the left */
+}
+
+#educationalLevelTable th {
+    background-color: #f2f2f2; /* Add background color to table header */
+}
+  
