@@ -25,7 +25,7 @@
 
 ## Final Step: Student Application URLs
 1. Add Student Application
-   - Endpoint: POST http://localhost:8000/StudentApplicationOp/add/
+   - Endpoint: POST 'http://localhost:8000/StudentApplicationOp/add/'
    - Payload:
      ```json
      {
@@ -92,7 +92,7 @@
      - Failed: 406 Not Acceptable
 
 2. Edit Student Application
-   - Endpoint: PUT http://localhost:8000/StudentApplicationOp/edit/7/
+   - Endpoint: PUT 'http://localhost:8000/StudentApplicationOp/edit/1/'
    - Payload: Same as Add Student Application
    - Response: Same as Add Student Application
    - Status Code:
@@ -100,7 +100,7 @@
      - Failed: 406 Not Acceptable
 
 3. Delete Student Application
-   - Endpoint: DELETE http://localhost:8000/StudentApplicationOp/delete/10/
+   - Endpoint: DELETE 'http://localhost:8000/StudentApplicationOp/delete/1/'
    - Response:
      ```json
      {
@@ -111,19 +111,19 @@
      - Success: 200 OK
 
 4. Get Student Application by ID
-   - Endpoint: GET http://localhost:8000/GetStudentApplicationGetById/8/
+   - Endpoint: GET 'http://localhost:8000/GetStudentApplicationGetById/1/'
    - Response: Same as Add Student Application
    - Status Code:
      - Success: 200 OK
 
 5. Get List of Student Applications
-   - Endpoint: GET http://localhost:8000/GetStudentApplicationList/
+   - Endpoint: GET 'http://localhost:8000/GetStudentApplicationList/'
    - Response: List of student applications (See example response)
    - Status Code:
      - Success: 200 OK
 
 6. Paginated List of Student Applications
-   - Endpoint: POST http://localhost:8000/StudentApplicationList/
+   - Endpoint: POST 'http://localhost:8000/StudentApplicationList/'
    - Payload:
      ```json
      {
@@ -140,15 +140,32 @@
 
 ## virtualenv Steps:
 1. **Create a Virtual Environment:** 
-     virtualenv env
+     'virtualenv env'
 
 2. **Activate the Virtual Environment:** 
-     - On Windows: myenv\Scripts\activate
-     - On macOS and Linux: source myenv/bin/activate
+     - On Windows: 'env\Scripts\activate'
+     - On macOS and Linux: 'source env/bin/activate'
 
 ## Run project steps:
-1. Install required packages: pip install -r requirements.txt
-2. Apply database migrations: 'python manage.py makemigrations' then 'python manage.py migrate'
-3. Run the development server: python manage.py runserver
-4. Run tests: python manage.py test setup.tests
-5. Access the API endpoints using the provided URLs and perform CRUD operations.
+1. Install required packages: 'pip install -r requirements.txt'.
+2. Apply database migrations: 'python manage.py makemigrations' then 'python manage.py migrate'.
+3. Make admin user: 'python manage.py createsuperuser' .
+4. make superuser with username: 'admin', password: 'admin' as example.
+5. Run tests: 'python manage.py test setup.tests'.
+6. Run the development server: 'python manage.py runserver'.
+7. Access the API endpoints using the provided URLs and perform CRUD operations.
+
+## Notes ##
+- UnitTest is made only for one model and his URLs, and the other models have the same approach.
+- CRUD form is also made for one model only (EducationalLevel), and the other models have the same approach.
+
+## Steps To make requests in EducationalLevel form:
+1. Open 'login.html' file.
+2. Enter username and password of the superuser you create to login.
+3. Copy the token which is printed in the html page.
+4. Paste it in line 51 of 'EducationalLevel.html' file instead of the exist token.
+5. Now, you can add, edit, and delete EducationalLevel.
+
+## You can enter the other models data using admin panel page ('http://localhost:8000/admin/') then login with superuser
+
+## After add all the data, now you can register for student using 'index.html' file
