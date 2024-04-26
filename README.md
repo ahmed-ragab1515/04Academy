@@ -155,10 +155,10 @@
 6. Run the development server: 'python manage.py runserver'.
 7. Access the API endpoints using the provided URLs and perform CRUD operations.
 
-## Notes ##
+## Notes
 - UnitTest is made only for one model and his URLs, and the other models have the same approach.
 - CRUD form is also made for one model only (EducationalLevel), and the other models have the same approach.
-- All URLs are available if you want to view them send me Gmail to allow it for you.
+- All URLs are available in Postman if you want to view them send me Gmail to allow it for you.
 
 ## Steps To make requests in EducationalLevel form:
 1. Open 'login.html' file.
