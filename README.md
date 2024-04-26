@@ -3,7 +3,7 @@
 
 ## API Endpoints Documentation:
 ---------------------------
-Step 2: Educational Level URLs
+## Step 2: Educational Level URLs
 - Endpoint for adding an educational level: POST /EducationalLevelOp/add/ {"name": "Test Educational Level"}
 - Endpoint for editing an educational level by ID: PUT /EducationalLevelOp/edit/1/ {"name": "Updated Educational Level"}
 - Endpoint for deleting an educational level by ID: DELETE /EducationalLevelOp/delete/1/
@@ -11,19 +11,19 @@ Step 2: Educational Level URLs
 - Endpoint for getting a list of educational levels: GET /GetEducationalLevelList/
 - Endpoint for paginated list of educational levels: POST /EducationalLevelList/ {"pageNum": 2, "pageLen": 2}
 
-- Class Level URLs
+## Class Level URLs
 - Add, edit, delete, get by ID, and list URLs similar to Educational Level
 
-- Curriculum URLs
+## Curriculum URLs
 - Add, edit, delete, get by ID, and list URLs similar to Educational Level
 
-Step 3: Subject URLs
+## Step 3: Subject URLs
 - Add, edit, delete, get by ID, and list URLs similar to Educational Level
 
-Step 4, 5, 6: Other URLs (Session Frequency, Session Duration, Subscription Plan, etc.)
+## Step 4, 5, 6: Other URLs (Session Frequency, Session Duration, Subscription Plan, etc.)
 - Add, edit, delete, get by ID, and list URLs similar to Educational Level
 
-Final Step: Student Application URLs
+## Final Step: Student Application URLs
 1. Add Student Application
    - Endpoint: POST http://localhost:8000/StudentApplicationOp/add/
    - Payload:
